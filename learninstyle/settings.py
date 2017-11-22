@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 	'tinymce',
-    'learnApp'
+    'learnApp',
+    'storages'
 ]
 
 LOGIN_URL = 'login.html'
@@ -126,18 +127,21 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
-STATIC_URL = '/static/'
+AWS_STORAGE_BUCKET_NAME = 'learninstyle-staticmedia'
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'learnApp/static')
+AWS_ACCESS_KEY_ID = os.environ['S3_ACCESS']
+AWS_SECRET_KEY_ID = os.environ['S3_SECRET']
 
-MEDIA_URL = '/media/'
+AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'learnApp/media')
+STATIC_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, 'static')
 
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'learnApp/static')
+)
 
+STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
-
-print(BASE_DIR)
-print(MEDIA_ROOT)
+DEFAULT_FILE_STORAGE = 'learninstyle.storage_backends.MediaStorage'
 
 
