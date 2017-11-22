@@ -1,0 +1,40 @@
+{% extends extend %}
+
+    {% block titletab %}
+    <title>LearnInStyle</title>
+    {% endblock %}
+
+    <!-- Custom styles for this template -->
+    {% block css %}
+    <link href="../../static/learnApp/home.css" rel="stylesheet">
+    {% endblock %}
+
+
+    {% block courseTitle %}
+      <h1 class="text-center"><u>Search Courses By Name and Category</u></h1><br>
+    {% endblock %}  
+
+    {% block viewCourses %}
+    {% endblock %}
+
+    {% block body %}
+    <div class="container marketing">
+    <div class="col-lg-4">
+    <form action="/searchCategory.html" role="search" method="post">
+        {{searchCat}}
+        <br>
+        <h4>By category:</h4>
+        <select name="category">
+            <option value="volvo">Machine Learning</option>
+            <option value="saab">Computer Systems</option>
+            <option value="opel">Cloud Computing</option>
+        </select>
+        {% csrf_token %}<br><br>
+        <input type="submit" value="Submit">
+    </form>
+    </div>
+    </div>
+    {% endblock %}    
+
+    
+          

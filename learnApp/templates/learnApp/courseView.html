@@ -1,0 +1,29 @@
+{% extends "learnApp/loggedinBase.html" %}
+
+    {% block titletab %}
+    <title>LearnInStyle</title>
+    {% endblock %}
+
+    {% block css %}
+    <link href="../../static/learnApp/home.css" rel="stylesheet">
+    {% endblock %}
+
+    <!-- Marketing messaging and featurettes
+    ================================================== -->
+    <!-- Wrap the rest of the page in another container to center all the content. -->
+
+      {% block courseTitle %}
+      {% if reg %}
+      <h1 class="text-center"><u>Your Registered Courses</u></h1><br>
+      {% else %}
+      <h1 class="text-center"><u>Your Owned Courses</u></h1><br>
+      {% endif %}
+      {% endblock %}
+
+    {% block button %}
+    {% if reg %}
+    <p><a class="btn btn-default" href="/view/{{course.course_name}}" role="button">View &raquo;</a></p>
+    {% else %}
+    <p><a class="btn btn-default" href="/editCourse/{{course.course_name}}" role="button">Edit &raquo;</a></p>  
+    {% endif %}
+    {% endblock %}

@@ -1,0 +1,38 @@
+{% extends "learnApp/loggedinBase.html" %}
+
+    {% block titletab %}
+    <title>LearnInStyle</title>
+    {% endblock %}
+
+    <!-- Custom styles for this template -->
+    {% block css %}
+    <link href="../../static/learnApp/home.css" rel="stylesheet">
+    {% endblock %}
+
+
+    {% block courseTitle %}
+      <h1 class="text-center"><u>Grades for {{course.course_name}}</u></h1><br>
+    {% endblock %}  
+
+    {% block viewCourses %}
+    {% endblock %}
+
+    {% block body %}
+    <div class="container marketing">
+        <table>
+            <tr>
+                <th>Title</th>
+                <th>Percentage</th>
+            </tr>
+            {% for qg in graded %}
+            <tr>
+                <th>{{qg.quiz.title}}</th>
+                <th>{{qg.grade}}</th>
+            </tr>
+            {% endfor %}
+        </table>    
+    </div>
+    {% endblock %}    
+
+    
+          

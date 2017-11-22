@@ -1,0 +1,145 @@
+{% extends "learnApp/loggedinBase.html" %}
+
+	{% block titletab %}
+	<title>LearnInStyle</title>
+	{% endblock %}
+
+	{% block css %}
+	<link href="../../static/learnApp/dashboard.css" rel="stylesheet">
+	{% endblock %}
+
+	{% block navtop %}
+		<nav class="navbar navbar-inverse navbar-fixed-top">
+	{% endblock %}
+
+	{% block body %}
+	<br />
+		<div id="quiz" class="container-fluid col-sm-9 col-sm-offset-3 col-md-offset-2 col-md-8 pt-3" style="margin-bottom: 100px">
+
+		</div>
+
+	{% endblock %}
+
+	{% block courseTitle %}
+	{% endblock %}
+
+	{% block scripts %}
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jsviews/0.9.89/jsviews.min.js"></script>
+
+	<script id="answer_template" type="text/x-jsrender">
+		<div class="input-group" style="margin-bottom:7px">
+			<span class="input-group-addon">
+				<input type="checkbox" data-link="is_correct">
+			</span>
+			<input type="text" class="form-control" data-link="answer_text" >
+			<span class="input-group-btn">
+				<button class="delete_answer btn btn-danger" type="button">Delete</button>
+			</span>
+		</div>
+	</script>
+
+	<script id="quiz_template" type="text/x-jsrender">
+		<div class="input-group" style="margin-bottom:15px">
+			<span class="input-group-addon">
+				Title:
+			</span>
+			<input type="text" class="form-control input-lg" data-link="title" >
+		</div>
+
+		<^%for questions%>
+			<div class="question panel panel-default">
+				<div class="panel-heading">
+					<div class="btn-group pull-right">
+						<button class="delete_question btn btn-danger">Delete Question</button>
+					</div>
+					<h4>Question <^%:#index + 1%></h4>
+				</div>
+				<br />
+				<textarea class="form-control" rows="4" data-link="question_text"></textarea>
+				<div class="panel-body">
+					<^%for answers tmpl="#answer_template"/%>
+					<button class="new_answer_btn btn">Add answer</button>
+				</div>
+			</div>
+			<br />
+		<%/for%>
+		<div class="row">
+			<button class="new_question_btn btn">Add question</button>
+		</div>
+		<div class="row">
+			<br />
+			<button class="save_btn btn btn-primary">Save</button>
+		</div>
+	</script>
+
+
+	<script>
+		$.views.settings.delimiters("<%", "%>");
+
+		quiz_template = $.templates("#quiz_template");
+
+		var quiz = {{quiz_json | safe}};
+
+
+		quiz_template.link("#quiz", quiz);
+
+		$("#quiz").on("click", ".new_answer_btn", function() {
+			var cur_question = $.view(this).data;
+			$.observable(cur_question.answers).insert({is_correct: false, answer_text: ""});
+		});
+
+		$("#quiz").on("click", ".delete_answer", function() {
+			var cur_answer = $.view(this);
+			$.observable(cur_answer.parent.data).remove(cur_answer.index);
+		});
+
+		$("#quiz").on("click", ".new_question_btn", function() {
+			var quiz = $.view(this).data;
+			$.observable(quiz.questions).insert({question_text: "", answers: [{is_correct: false, answer_text: ""}]});
+		});
+
+		$("#quiz").on("click", ".delete_question", function() {
+			var question = $.view(this);
+			$.observable(question.parent.data).remove(question.index);
+		});
+
+		$("#quiz").on("click", ".save_btn", function() {
+			quiz_json = JSON.stringify(quiz);
+			$.post('/saveQuiz/{{quiz_id}}', quiz_json)
+				.done(function() {
+					location.replace(document.referrer);
+				});
+		});
+
+		$(document).ready(function () {
+		  // CSRF set-up copied from Django docs
+		  function getCookie(name) {
+			var cookieValue = null;
+			if (document.cookie && document.cookie != '') {
+				var cookies = document.cookie.split(';');
+				for (var i = 0; i < cookies.length; i++) {
+					var cookie = jQuery.trim(cookies[i]);
+					// Does this cookie string begin with the name we want?
+					if (cookie.substring(0, name.length + 1) == (name + '=')) {
+						cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+						break;
+					}
+				}
+			}
+			return cookieValue;
+		  }
+		  var csrftoken = getCookie('csrftoken');
+		  $.ajaxSetup({
+			beforeSend: function(xhr, settings) {
+				xhr.setRequestHeader("X-CSRFToken", csrftoken);
+			}
+		  });
+		});
+
+
+	</script>
+
+	{% endblock %}
+
+	{% block viewCourses %}
+	{% endblock %}

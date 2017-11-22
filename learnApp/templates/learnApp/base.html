@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<link rel="icon" href="../../favicon.ico">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+	{% block titletab %}
+	{% endblock %}
+
+	<!-- Bootstrap core CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+	<!-- Custom styles for this template -->
+	{% block css %}
+	{% endblock %}
+
+  
+  </head>
+<!-- NAVBAR
+================================================== -->
+  <body>
+	{% block wcstart %}
+	{% endblock %}
+		{% block navtop %}
+		<nav class="navbar navbar-inverse navbar-static-top">
+		{% endblock %}
+		  <div class="container">
+			<div class="navbar-header">
+			  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			  </button>
+			  <a class="navbar-brand" href="#">LearnInStyle</a>
+			</div>
+			<div id="navbar" class="navbar-collapse collapse">
+			  <ul class="nav navbar-nav">
+				<li class="active"><a href="/">Home</a></li>
+				{% block navtabs %}
+				{% endblock %}
+			  </ul>
+			  <div class="col-sm-3 col-md-3">
+				<form action="/search.html" class="navbar-form" role="search" method="post">
+				<div class="input-group">
+				  {{search}}
+				  <div class="input-group-btn">
+					<button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+				  </div>
+				</div>
+				{% csrf_token %}
+				</form>
+			  </div>
+			  <ul class="nav navbar-nav navbar-right">
+				{% block log %}
+				{% endblock %}
+			</div>
+		  </div>
+		</nav>
+
+	{% block wcend %}
+	{% endblock %}
+
+
+	
+	<!-- Large modal -->
+	{% block modal %}
+	{% endblock %}
+
+  {% block courseTitle %}
+    <h1 class="text-center"><u>Explore Courses</u></h1><br>
+  {% endblock %}
+
+  <!-- Carousel
+  ================================================== -->
+  {% block body %}
+  {% endblock %}
+  <!-- /.carousel -->
+
+	<!-- Marketing messaging and featurettes
+	================================================== -->
+	<!-- Wrap the rest of the page in another container to center all the content. -->
+	{% block viewCourses %}
+	<div class="container marketing">
+	  <!-- Three columns of text below the carousel -->
+	  {% for course in courses %}
+	  {% if forloop.counter0|divisibleby:"3" %}
+	  <div class="row">
+	  {% endif %}
+	  <div class="col-lg-4">
+		  <img class="img-square" src="http://www.hcedp.org/wp-content/uploads/2016/11/placeholder.jpg" alt="Generic placeholder image" width="140" height="140">
+		  <!--
+		  {% if course.image %}
+		  <img class="img-square" src="{{course.image.url}}" alt="Course image" width="140" height="140">
+		  {% else %}
+		  <img class="img-square" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">
+		  {% endif %}
+		  -->
+		  <h2>{{course.course_name}}</h2>
+		  <p>{{course.description}}</p>
+		  {% block button %}
+		  {% if user in course.students.all %}
+		  <p><a class="btn btn-default" href="#" role="button">Already Registered &raquo;</a></p>
+		  {% else %}
+		  <p><a class="btn btn-default" href="course/{{course.course_name}}" role="button">Register &raquo;</a></p>
+		  {% endif %}
+		  {% endblock %}
+
+	  </div><!-- /.col-lg-4 -->
+	  {% with ct=forloop.counter0|add:"1" %}
+	  {% if ct|divisibleby:"3" or forloop.last %}
+	  </div>
+	  {% endif %}
+	  {% endwith %}
+	  {% endfor %}
+
+	  <!-- FOOTER -->
+	  <footer>
+		<p class="pull-right"><a href="#">Back to top</a></p>
+		<p>&copy; Learn In Style</p>
+	  </footer>
+
+	</div><!-- /.container -->
+	{% endblock %}
+
+	<!-- Bootstrap core JavaScript
+	================================================== -->
+	<!-- Placed at the end of the document so the pages load faster -->
+
+	{% block scripts %}
+	{% endblock %}
+  </body>
+</html>

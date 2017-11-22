@@ -1,0 +1,81 @@
+	{% extends "learnApp/loggedinBase.html" %}
+
+	{% block titletab %}
+	<title>LearnInStyle</title>
+	{% endblock %}
+
+	<!-- Custom styles for this template -->
+	{% block css %}
+	<link href="../../static/learnApp/dashboard.css" rel="stylesheet">
+	{% endblock %}
+
+		<!-- DASHBOARD
+	================================================== -->
+
+	{% block courseTitle %}
+	{% endblock %}
+
+	{% block navtop %}
+	<nav class="navbar navbar-inverse navbar-fixed-top">
+	{% endblock %}
+
+	{% block body %}
+	<div class="container-fluid">
+	  <div class="row">
+		<nav class="col-sm-3 col-md-2 d-none d-sm-block bg-light sidebar">
+		  <ul class="nav nav-pills flex-column">
+			<li class="nav-item">
+			  <a class="nav-link active" href="#section1">Start Course <span class="sr-only">(current)</span></a>
+			</li>
+			<li class="nav-item">
+			  <a class="nav-link" href="#section2">Course Overview</a>
+			</li>
+			<li class="nav-item">
+			  <a class="nav-link" href="#section3">Lesson1</a>
+			</li>
+			<li class="nav-item">
+			  <a class="nav-link" href="#section4">Lesson2</a>
+			</li>
+			<li class="nav-item">
+			  <a class="nav-link" href="#section5">Take Quiz</a>
+			</li>
+		 </nav>
+
+
+		<main role="main" class="col-sm-9 col-sm-offset-3 col-md-offset-2 col-md-10 pt-3">
+		  <h1>Let's get Started!</h1>
+		  <div id="section1" class="container-fluid">
+			<h1>Welcome Student!</h1>
+				<div class="form-group">
+					<p>Have fun learning {{course.course_name}}.</p>
+				</div>
+		  </div>
+		  <div id="section2" class="container-fluid">
+			<h1>Course Overview</h1>
+				<div class="form-group">
+					{{course.overview}}
+				</div>
+				<p>Proceed to the next section.</p>
+		  </div>
+		  <div id="section3" class="container-fluid">
+			<h1>Lessons</h1>
+				{% for lessons in course.lesson_set.all %}
+				<p>Lesson {{lessons.id}}</p>
+				{% endfor %}
+			</div>
+		<div id="section5" class="container-fluid">
+			<h1>Quizzes</h1>
+			{% for quiz in quizzes%}
+				<h3><a href="{% url 'takeQuiz' quiz_id=quiz.id %}" >{{quiz.title}}</a></h3>
+			{% endfor %}
+		</div>
+
+		</main>
+	  </div>
+	</div>
+
+	{% endblock %}
+
+	{% block viewCourses %}
+	<!-- nothing here -->
+	{% endblock %}

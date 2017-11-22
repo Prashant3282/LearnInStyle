@@ -1,0 +1,134 @@
+{% extends "learnApp/base.html" %}
+
+{% block navtabs %}
+<li><a href="#about">About</a></li>
+<li><a href="/search/">Search by Category</a></li>
+{% endblock %}
+
+{% block log %}
+<li><a role="button" data-toggle="modal" data-target="#myModal">Login or Register</a></li>
+{% endblock %}
+
+{% block modal %}
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+        aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+            ×</button>
+              <h4 class="modal-title" id="myModalLabel">
+                Login or Register</h4>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-md-12">
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#Login" data-toggle="tab">Login</a></li>
+                    <li><a href="#Registration" data-toggle="tab">Registration</a></li>
+                </ul>
+                <!-- Tab panes -->
+                <div class="tab-content">
+                  <div class="tab-pane active" id="Login">
+                    <form action="/login.html" role="form" class="form-horizontal" method="post">
+                      <div class="form-group">
+                        <br>
+                        <label for="username" class="col-sm-2 control-label">
+                          Username</label>
+                        <div class="col-sm-10">
+                          {{login.username}}
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleInputPassword1" class="col-sm-2 control-label">
+                          Password</label>
+                        <div class="col-sm-10">
+                          {{login.password}}
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-sm-2">
+                        </div>
+                        <div class="col-sm-10">
+                          <input type="submit" class="btn btn-primary btn-sm" value="Login">
+                          <a href="javascript:;">Forgot your password?</a>
+                        </div>
+                      </div>
+                      {% csrf_token %}
+                    </form>
+                  </div>
+                  <div class="tab-pane" id="Registration">
+                    <form action="register.html" role="form" class="form-horizontal" method="post">
+                      <div class="form-group">
+                        <br>
+                        <label for="firstname" class="col-sm-2 control-label">
+                          First Name</label>  
+                        <div class="col-sm-10">
+                          {{register.firstname}}
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label for="lastname" class="col-sm-2 control-label">
+                          Last Name</label>  
+                        <div class="col-sm-10">
+                          {{register.lastname}}
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label for="username" class="col-sm-2 control-label">
+                          Username</label>  
+                        <div class="col-sm-10">
+                          {{register.username}}
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label for="email" class="col-sm-2 control-label">
+                          Email</label>
+                        <div class="col-sm-10">
+                          {{register.email}}
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label for="mobile" class="col-sm-2 control-label">
+                          Password</label>
+                        <div class="col-sm-10">
+                          {{register.password1}}
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label for="password" class="col-sm-2 control-label">
+                          Confirm</label>
+                        <div class="col-sm-10">
+                          {{register.password2}}
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-sm-2">
+                        </div>
+                        <div class="col-sm-10">
+                          <input type="submit" class="btn btn-primary btn-sm" value="Register">
+                          <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">
+                            Cancel</button>
+                        </div>
+                      </div>
+                      {% csrf_token %}
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+{% endblock %}
+
+{% block button %}
+<p><a class="btn btn-default" data-toggle="modal" data-target="#myModal" role="button">Log in to Register! &raquo;</a></p>
+{% endblock %}
+
+
+
+
+

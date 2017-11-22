@@ -1,0 +1,205 @@
+{% extends "learnApp/loggedinBase.html" %}
+
+	{% block titletab %}
+	<title>LearnInStyle</title>
+	{% endblock %}
+
+	<!-- Custom styles for this template -->
+	{% block css %}
+	<link href="../../static/learnApp/dashboard.css" rel="stylesheet">
+	{% endblock %}
+
+		<!-- DASHBOARD
+		================================================== -->
+
+	{% block navtop %}
+	<nav class="navbar navbar-inverse navbar-fixed-top">
+	{% endblock %}
+
+		{% block body %}
+	<div class="container-fluid">
+	  <div class="row">
+		<nav class="col-sm-3 col-md-2 d-none d-sm-block bg-light sidebar">
+		  <ul class="nav nav-pills flex-column">
+			<li class="nav-item">
+			  <a class="nav-link active" href="#section1">Create a New Course <span class="sr-only">(current)</span></a>
+			</li>
+			<li class="nav-item">
+			  <a class="nav-link" href="#section2">Course Overview</a>
+			</li>
+			<li class="nav-item">
+			  <a class="nav-link" href="#section3">Course Image</a>
+			</li>
+			<li class="nav-item">
+			  <a class="nav-link" href="#section4">Course Lessons</a>
+			</li>
+			<li class="nav-item">
+			  <a class="nav-link" href="#section5">Finish It</a>
+			</li>
+		</nav>
+		<form action="/edit/{{course.course_name}}" method="post" enctype="multipart/form-data">
+		<main role="main" class="col-sm-9 col-sm-offset-3 col-md-offset-2 col-md-10 pt-3">
+		  {{form.errors}}
+		  <h1>Let's get Started!</h1>
+		  <div id="section1" class="container-fluid">
+			<h1>Edit {{course.course_name}}</h1>
+		  </div>
+		  <div id="section2" class="container-fluid">
+			<h1>Course Overview</h1>
+				<p>Time to introduce your course to the students along with introduction about yourself.Let the students know what this course is all about, what they can expect in the course and what they should be accomplishing after successfully completing the course.</p>
+				<div class="form-group">
+					{{form.overview}}
+				</div>
+				<p>Proceed to the next section.</p>
+		  </div>
+		  <div id="section3" class="container-fluid">
+			<h1>Course Image</h1>
+				<p>Add image for this course.</p>
+				<div class="form-group">
+					{{form.course_image}}
+				</div>
+		  </div>
+		  <div id="section4" class="container-fluid">
+			<h1>Course Lessons</h1>
+				<p>Add lessons for this course.</p>
+				<form method="post" action="/edit/{{course.course_name}}">
+				{% for lessons in course.lesson_set.all %}
+				<p>Lesson {{lessons.id}}</p>
+				<a href="#myModal" role="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#myModal">Edit</a>
+				<button type="submit" class="btn btn-danger">Delete</button>
+				{% endfor %}
+				<div class="form-group">
+				 <script src='../../static/tinymce/js/tinymce/tinymce.min.js'></script>
+					<a href="#myModal" role="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#myModal">Add Lessons</a>
+					<div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+					<div class="modal-header">
+						<h3 id="myModalLabel">Modal header</h3>
+					</div>
+					<form method="post" action="/edit/{{course.course_name}}">
+					<div class="modal-body">
+						<textarea name="content"></textarea>
+						 
+					</div>
+					</form>{% csrf_token %}
+					<div class="modal-footer">
+						<button id="save" class="btn btn-primary" data-dismiss="modal" aria-hidden="true" onclick=>Save</button>
+						<button id="close" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Close</button>
+					</div>
+			</div>
+					 <script type="text/javascript" src='../../static/lessonedit.js'></script>
+
+
+			</div>
+			
+			</div>
+			<div id="section5" class="container-fluid">
+				<h1>Course Quizzes</h1>
+				<div class="row">
+					<div class="col-md-4">
+						<div class="list-group">
+							{% for quiz in quizzes %}
+							<div class="list-group-item clearfix">
+								{{quiz.title}}
+								<span class="pull-right">
+									<a href="{% url 'editQuiz' course_name=course.course_name quiz_id=quiz.id%}" class="btn btn-primary">Edit</a>
+									<button onclick="deleteQuiz({{quiz.id}});return false;" class="btn btn-danger">Delete</button>
+								</span>
+							</div>
+							{% endfor %}
+						</div>
+						<a href="{% url 'editQuiz' course_name=course.course_name %}" class="btn btn-primary">Create New Quiz</a>
+					</div>
+				</div>
+
+			</div>
+		  <div id="section5" class="container-fluid">
+			<h1>You're Done!</h1>
+				<p> Edit the course. <p>
+				<button type="submit" class="btn btn-primary btn-md">Edit</button>
+		  </div>
+		</main>
+		{% csrf_token %}
+		</form>
+	  </div>
+	</div>
+
+	<script>
+
+		function deleteQuiz(quiz_id) {
+			quiz_json = JSON.stringify({});
+			$.post('/saveQuiz/' + quiz_id, quiz_json)
+				.done(function() {
+					location.reload();
+				});
+		}
+
+		$(document).ready(function () {
+		  // CSRF set-up copied from Django docs
+		  function getCookie(name) {
+			var cookieValue = null;
+			if (document.cookie && document.cookie != '') {
+				var cookies = document.cookie.split(';');
+				for (var i = 0; i < cookies.length; i++) {
+					var cookie = jQuery.trim(cookies[i]);
+					// Does this cookie string begin with the name we want?
+					if (cookie.substring(0, name.length + 1) == (name + '=')) {
+						cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+						break;
+					}
+				}
+			}
+			return cookieValue;
+		  }
+		  
+		  var csrftoken = getCookie('csrftoken');
+		  $.ajaxSetup({
+			beforeSend: function(xhr, settings) {
+				xhr.setRequestHeader("X-CSRFToken", csrftoken);
+			}
+		  });
+		  
+				
+    
+	
+	
+	
+       
+  
+	
+	function ajaxLoad() {
+    var lesson_text = tinyMCE.get('content');
+	
+	$.ajax({
+	 method: 'POST',
+        url: '/addLesson/{{course.course_name}}',
+        data: {'lesson_text': lesson_text.getContent()},
+        success: function (data) {
+              alert("Lesson Saved");
+			  
+        },
+        error: function (data) {
+             
+        }
+		});
+
+    lesson_text.setProgressState(1); 
+    window.setTimeout(function() {
+        lesson_text.setProgressState(0); 
+        lesson_text.setContent(lesson_text.getContent());
+    }, 3000);
+	
+	
+	}
+	
+	$('#save').click(ajaxLoad);
+	});
+	
+	
+	 	
+	</script>
+
+	{% endblock %}
+
+	{% block viewCourses %}
+	<!-- nothing here -->
+	{% endblock %}

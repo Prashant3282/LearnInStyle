@@ -1,0 +1,92 @@
+{% extends "learnApp/loggedinBase.html" %}
+
+		{% block titletab %}
+		<title>LearnInStyle</title>
+		{% endblock %}
+
+		<!-- Custom styles for this template -->
+		{% block css %}
+		<link href="../../static/learnApp/dashboard.css" rel="stylesheet">
+		{% endblock %}
+
+		<!-- DASHBOARD
+		================================================== -->
+
+		{% block navtop %}
+		<nav class="navbar navbar-inverse navbar-fixed-top">
+		{% endblock %}
+
+		{% block body %}
+	<div class="container-fluid">
+			<div class="row">
+				<nav class="col-sm-3 col-md-2 d-none d-sm-block bg-light sidebar">
+					<ul class="nav nav-pills flex-column">
+						<li class="nav-item">
+							<a class="nav-link active" href="#section1">Create a New Course <span class="sr-only">(current)</span></a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="#section2">Course Overview</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="#section3">Course Image</a>
+						</li>
+			<li class="nav-item">
+							<a class="nav-link" href="#section4">Course Lessons</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="#section5">Finish It</a>
+						</li>
+				</nav>
+				<form action="saveCourse.html" method="post" enctype="multipart/form-data">
+		<main role="main" class="col-sm-9 col-sm-offset-3 col-md-offset-2 col-md-10 pt-3">
+					<h1>Let's get Started!</h1>
+			<div id="section1" class="container-fluid">
+				{{form.errors}}
+			<h1>Welcome Instructor!</h1>
+				<p>Design your course in a very easy way.</p>
+				<p>Enter a name for your course.</p>
+				<div class="form-group">
+					{{form.course_name}}
+				</div>
+			</div>
+			<div id="section2" class="container-fluid">
+			<h1>Course Overview</h1>
+				<p>Time to introduce your course to the students along with introduction about yourself.Let the students know what this course is all about, what they can expect in the course and what they should be accomplishing after successfully completing the course.</p>
+				<div class="form-group">
+					{{form.overview}}
+				</div>
+				<p>Proceed to the next section.</p>
+			</div>
+			<div id="section3" class="container-fluid">
+			<h1>Course Image</h1>
+				<p>Add image for this course.</p>
+				<div class="form-group">
+					{{form.course_image}}
+				</div>
+			</div>
+			<div id="section3" class="container-fluid">
+			<h1>Course Category</h1>
+				<p>Choose a category for this course.</p>
+				<div class="dropdown">
+					<select name="category">
+						<option value="volvo">Machine Learning</option>
+						<option value="saab">Computer Systems</option>
+						<option value="opel">Cloud Computing</option>
+					</select>
+				</div>
+			</div>
+			<div id="section6" class="container-fluid">
+			<h1>You're Done!</h1>
+				<p> Thats it! Create the course. <p>
+				<button type="submit" class="btn btn-primary btn-md">Create</button>
+			</div>
+		</main>
+		{% csrf_token %}
+		</form>
+		</div>
+		</div>
+		{% endblock %}
+
+		{% block viewCourses %}
+		<!-- nothing here -->
+		{% endblock %}

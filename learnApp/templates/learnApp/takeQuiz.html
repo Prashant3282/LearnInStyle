@@ -1,0 +1,46 @@
+	{% extends "learnApp/loggedinBase.html" %}
+
+	{% block titletab %}
+	<title>LearnInStyle</title>
+	{% endblock %}
+
+	<!-- Custom styles for this template -->
+	{% block css %}
+	<link href="../../static/learnApp/dashboard.css" rel="stylesheet">
+	{% endblock %}
+
+		<!-- DASHBOARD
+	================================================== -->
+
+	{% block navtop %}
+	<nav class="navbar navbar-inverse navbar-fixed-top">
+	{% endblock %}
+
+	{% block courseTitle %}
+	{% endblock %}
+
+	{% block body %}
+	<div class="container-fluid">
+	  <div class="row">
+
+		<main role="main" class="col-sm-9 col-sm-offset-3 col-md-offset-2 col-md-10 pt-3">
+
+			<div id="section5" class="container-fluid">
+				<h1>Take Quiz</h1>
+				<form method="POST" action="/takeQuiz/{{id}}">
+					{% csrf_token %}
+					{{quiz}}
+					<input type="submit" value="Submit" />
+				</form>
+				<br />
+			</div>
+
+		</main>
+	  </div>
+	</div>
+
+	{% endblock %}
+
+	{% block viewCourses %}
+	<!-- nothing here -->
+	{% endblock %}
