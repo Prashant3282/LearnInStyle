@@ -25,7 +25,10 @@ SECRET_KEY = '5bd^)uhik%50un2_gx#re(bm*3l^3@87%m*fdus)ekiw7p#w8('
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'localhost',
+    'morning-meadow-96235.herokuapp.com'
+]
 
 
 # Application definition
