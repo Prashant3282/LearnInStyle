@@ -130,7 +130,7 @@ USE_TZ = True
 AWS_STORAGE_BUCKET_NAME = 'learninstyle-staticmedia'
 
 AWS_ACCESS_KEY_ID = os.environ['S3_ACCESS']
-AWS_SECRET_KEY_ID = os.environ['S3_SECRET']
+AWS_SECRET_ACCESS_KEY = os.environ['S3_SECRET']
 
 AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
 
