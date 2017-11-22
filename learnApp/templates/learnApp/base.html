@@ -100,14 +100,13 @@
 	  <div class="row">
 	  {% endif %}
 	  <div class="col-lg-4">
-		  <img class="img-square" src="http://www.hcedp.org/wp-content/uploads/2016/11/placeholder.jpg" alt="Generic placeholder image" width="140" height="140">
-		  <!--
+		  
 		  {% if course.image %}
 		  <img class="img-square" src="{{course.image.url}}" alt="Course image" width="140" height="140">
 		  {% else %}
-		  <img class="img-square" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">
+		  <img class="img-square" src="http://www.hcedp.org/wp-content/uploads/2016/11/placeholder.jpg" alt="Generic placeholder image" width="140" height="140">
 		  {% endif %}
-		  -->
+		  
 		  <h2>{{course.course_name}}</h2>
 		  <p>{{course.description}}</p>
 		  {% block button %}
