@@ -1,12 +1,16 @@
 {% extends "learnApp/loggedinBase.html" %}
 
+	{% block ls %}
+	{% load static %}
+	{% endblock %}
+
 	{% block titletab %}
 	<title>LearnInStyle</title>
 	{% endblock %}
 
 	<!-- Custom styles for this template -->
 	{% block css %}
-	<link href="../../static/learnApp/dashboard.css" rel="stylesheet">
+	<link href="{% static 'learnApp/dashboard.css' %}" rel="stylesheet">
 	{% endblock %}
 
 		<!-- DASHBOARD

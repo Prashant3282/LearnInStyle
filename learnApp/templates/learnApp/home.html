@@ -1,11 +1,15 @@
 {% extends "learnApp/loggedinBase.html" %}
 
+    {% block ls %}
+    {% load static %}
+    {% endblock %}
+
     {% block titletab %}
     <title>LearnInStyle</title>
     {% endblock %}
 
     {% block css %}
-    <link href="../../static/learnApp/home.css" rel="stylesheet">
+    <link href="{% static 'learnApp/home.css' %}" rel="stylesheet">
     {% endblock %}
 
 
